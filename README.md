@@ -13,9 +13,62 @@ A collection of skills for Claude Code and Kiro agents.
 | [project-memory](./project-memory/) | Set up and maintain structured project memory in `docs/project_notes/` |
 | [terraform](./terraform/) | Terraform and OpenTofu best practices |
 
+## Installation
+
+Clone the repo once, then symlink whichever skills you want:
+
+```bash
+git clone git@github.com:dmorand17/agent-skills.git
+cd agent-skills
+```
+
+### Install a single skill
+
+```bash
+# Claude Code — global
+ln -s $(pwd)/bash ~/.claude/skills/bash
+ln -s $(pwd)/terraform ~/.claude/skills/terraform
+# ... repeat for other skills
+
+# Kiro — global
+ln -s $(pwd)/bash ~/.kiro/skills/bash
+ln -s $(pwd)/terraform ~/.kiro/skills/terraform
+```
+
+### Install all skills at once
+
+```bash
+# Claude Code
+for skill in bash skill-creator git-commit markdown-convert project-memory terraform; do
+  ln -sf "$(pwd)/$skill" ~/.claude/skills/$skill
+done
+
+# Kiro
+for skill in bash skill-creator git-commit markdown-convert project-memory terraform; do
+  ln -sf "$(pwd)/$skill" ~/.kiro/skills/$skill
+done
+```
+
+### Project-scoped installation
+
+```bash
+# Claude Code
+ln -s $(pwd)/terraform /path/to/project/.claude/skills/terraform
+
+# Kiro
+ln -s $(pwd)/terraform /path/to/project/.kiro/skills/terraform
+```
+
+### Updating
+
+```bash
+cd agent-skills && git pull
+```
+
+Symlinks mean all installed skills update automatically.
+
 ## Structure
 
 Each skill directory contains:
 - `SKILL.md` — skill definition loaded by the agent
-- `README.md` — usage documentation
 - Additional assets (templates, examples) where applicable
