@@ -11,6 +11,7 @@ A collection of skills for Claude Code and Kiro agents.
 | [git-commit](./git-commit/) | Write git commit messages following Conventional Commits |
 | [markdown-convert](./markdown-convert/) | Convert markdown files to other formats using pandoc |
 | [project-memory](./project-memory/) | Set up and maintain structured project memory in `docs/project_notes/` |
+| [satv2-assessment](./satv2-assessment/) | Deploy and run AWS SATv2 security assessments using Prowler-based scanning via CloudFormation |
 | [terraform](./terraform/) | Terraform and OpenTofu best practices |
 
 ## Installation
@@ -39,12 +40,12 @@ ln -s $(pwd)/terraform ~/.kiro/skills/terraform
 
 ```bash
 # Claude Code
-for skill in bash skill-creator git-commit markdown-convert project-memory terraform; do
+for skill in bash skill-creator git-commit markdown-convert project-memory satv2-assessment terraform; do
   ln -sf "$(pwd)/$skill" ~/.claude/skills/$skill
 done
 
 # Kiro
-for skill in bash skill-creator git-commit markdown-convert project-memory terraform; do
+for skill in bash skill-creator git-commit markdown-convert project-memory satv2-assessment terraform; do
   ln -sf "$(pwd)/$skill" ~/.kiro/skills/$skill
 done
 ```
@@ -72,3 +73,7 @@ Symlinks mean all installed skills update automatically.
 Each skill directory contains:
 - `SKILL.md` — skill definition loaded by the agent
 - Additional assets (templates, examples) where applicable
+
+## Credits
+
+- **satv2-assessment** — based on [Running AWS SATv2 Security Assessments with Kiro Skills](https://builder.aws.com/content/3BmTHb9hXqSwqjfG34yEbgURhZY/running-aws-satv2-security-assessments-with-kiro-skills)
