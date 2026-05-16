@@ -1,52 +1,54 @@
-# agent-skills
+# ai-extensions
 
-A collection of skills for Claude Code and Kiro agents.
+Skills (and eventually subagents, hooks, and commands) for Claude Code and Kiro.
+
+The repo follows the [Claude Code plugin layout](https://docs.claude.com/en/docs/claude-code/plugins) — typed top-level directories (`skills/`, later `agents/`, `hooks/`, `commands/`) — so it can become a plugin in place when ready.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| [bash](./bash/) | Bash script best practices — main function pattern, argument parsing, error handling |
-| [skill-creator](./skill-creator/) | Create, improve, and evaluate new skills |
-| [git-commit](./git-commit/) | Write git commit messages following Conventional Commits |
-| [markdown-convert](./markdown-convert/) | Convert markdown files to other formats using pandoc |
-| [project-memory](./project-memory/) | Set up and maintain structured project memory in `docs/project_notes/` |
-| [satv2-assessment](./satv2-assessment/) | Deploy and run AWS SATv2 security assessments using Prowler-based scanning via CloudFormation |
-| [terraform](./terraform/) | Terraform and OpenTofu best practices |
+| [changelog-generator](./skills/changelog-generator/) | Generate user-facing changelogs and release notes from git commit history |
+| [excalidraw-diagram](./skills/excalidraw-diagram/) | Create and edit Excalidraw diagrams via MCP |
+| [git-commit](./skills/git-commit/) | Stage and commit using Conventional Commits (or just draft/review a message) |
+| [image-enhancer](./skills/image-enhancer/) | Enhance image quality — sharpen, upscale, denoise, and clean up compression artifacts |
+| [markdown-convert](./skills/markdown-convert/) | Convert markdown files to other formats using pandoc |
+| [project-memory](./skills/project-memory/) | Set up and maintain structured project memory in `docs/project_notes/` |
+| [satv2-assessment](./skills/satv2-assessment/) | Deploy and run AWS SATv2 security assessments using Prowler-based scanning via CloudFormation |
+| [skill-creator](./skills/skill-creator/) | Create, improve, and evaluate new skills |
+
+> Reference docs (Terraform conventions, bash standards, etc.) live in the companion repo: [dmorand17/ai-config](https://github.com/dmorand17/ai-config).
 
 ## Installation
 
-Clone the repo once, then symlink whichever skills you want:
-
 ```bash
-git clone git@github.com:dmorand17/agent-skills.git
-cd agent-skills
+git clone git@github.com:dmorand17/ai-extensions.git
+cd ai-extensions
 ```
 
 ### Install a single skill
 
 ```bash
 # Claude Code — global
-ln -s $(pwd)/bash ~/.claude/skills/bash
-ln -s $(pwd)/terraform ~/.claude/skills/terraform
-# ... repeat for other skills
+ln -s $(pwd)/skills/git-commit ~/.claude/skills/git-commit
 
 # Kiro — global
-ln -s $(pwd)/bash ~/.kiro/skills/bash
-ln -s $(pwd)/terraform ~/.kiro/skills/terraform
+ln -s $(pwd)/skills/git-commit ~/.kiro/skills/git-commit
 ```
 
 ### Install all skills at once
 
 ```bash
 # Claude Code
-for skill in bash skill-creator git-commit markdown-convert project-memory satv2-assessment terraform; do
-  ln -sf "$(pwd)/$skill" ~/.claude/skills/$skill
+for skill in skills/*/; do
+  name=$(basename "$skill")
+  ln -sf "$(pwd)/$skill" ~/.claude/skills/$name
 done
 
 # Kiro
-for skill in bash skill-creator git-commit markdown-convert project-memory satv2-assessment terraform; do
-  ln -sf "$(pwd)/$skill" ~/.kiro/skills/$skill
+for skill in skills/*/; do
+  name=$(basename "$skill")
+  ln -sf "$(pwd)/$skill" ~/.kiro/skills/$name
 done
 ```
 
@@ -54,25 +56,32 @@ done
 
 ```bash
 # Claude Code
-ln -s $(pwd)/terraform /path/to/project/.claude/skills/terraform
+ln -s $(pwd)/skills/skill-creator /path/to/project/.claude/skills/skill-creator
 
 # Kiro
-ln -s $(pwd)/terraform /path/to/project/.kiro/skills/terraform
+ln -s $(pwd)/skills/skill-creator /path/to/project/.kiro/skills/skill-creator
 ```
 
 ### Updating
 
 ```bash
-cd agent-skills && git pull
+cd ai-extensions && git pull
 ```
 
 Symlinks mean all installed skills update automatically.
 
 ## Structure
 
+```
+skills/                # Self-contained skill packages, each with a SKILL.md
+agents/   (planned)    # Subagent definitions
+hooks/    (planned)    # Hook scripts
+commands/ (planned)    # Slash commands
+```
+
 Each skill directory contains:
 - `SKILL.md` — skill definition loaded by the agent
-- Additional assets (templates, examples) where applicable
+- Additional assets (templates, examples, references) where applicable
 
 ## Credits
 
