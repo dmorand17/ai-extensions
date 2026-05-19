@@ -22,12 +22,14 @@ Invoke this skill when:
 
 When invoked for the first time in a project, create the following structure:
 
+```
 docs/
 └── project_notes/
     ├── bugs.md         # Bug log with solutions
     ├── decisions.md    # Architectural Decision Records
     ├── key_facts.md    # Project configuration and constants
     └── issues.md       # Work log with ticket references
+```
 
 **Directory naming rationale:** Using `docs/project_notes/` instead of `memory/`
 makes it look like standard engineering organization, not AI-specific tooling.
