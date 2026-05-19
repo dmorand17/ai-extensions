@@ -1,11 +1,16 @@
 ---
 name: changelog-generator
-description: Automatically creates user-facing changelogs from git commits by analyzing commit history, categorizing changes, and transforming technical commits into clear, customer-friendly release notes. Turns hours of manual changelog writing into minutes of automated generation.
+description: >
+  Generate a user-facing changelog from git commits — categorizes changes,
+  filters internal noise, and rewrites commit subjects in customer-friendly
+  language. Use when user mentions release notes, changelog, what's new,
+  product updates, version updates (e.g. "for v2.5.0"), or generating
+  release documentation from commits.
 ---
 
 # Changelog Generator
 
-This skill transforms technical git commits into polished, user-friendly changelogs that your customers and users will actually understand and appreciate.
+Turn a git commit range into a categorized, user-facing changelog.
 
 ## When to Use This Skill
 
@@ -82,8 +87,6 @@ guidelines from CHANGELOG_STYLE.md
 - Resolved timezone confusion in scheduled posts
 - Corrected notification badge count
 ```
-
-**Inspired by:** Manik Aggarwal's use case from Lenny's Newsletter
 
 ## Tips
 

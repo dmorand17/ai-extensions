@@ -16,6 +16,11 @@ Ask questions one at a time. Wait for each answer before proceeding.
 
 Do NOT proceed until the user explicitly chooses.
 
+> **If multi-account, also read `references/multi-account.md`** for the
+> StackSets deployment, Organizations access setup, and multi-account
+> cleanup. The setup flow below (Steps 2–5) and the result review flow
+> apply to both single- and multi-account.
+
 ### Step 2 — AWS Profiles
 
 List available profiles:
@@ -132,8 +137,8 @@ Recommend Basic for first-time, Intermediate for follow-ups.
 
 Do NOT proceed without an email.
 
-For **multi-account**, also recommend Reporting (default yes):
-> **Reporting consolidates all results into a single CSV and SHIP HealthCheck presentation. Turn it on?**
+For **multi-account**, see `references/multi-account.md` for the Reporting
+recommendation and the Step A → B → C deployment flow.
 
 ## Deploy — Single Account
 
@@ -153,95 +158,9 @@ After deployment:
 
 ## Deploy — Multi-Account
 
-### Step A — Deploy Member Roles (management account)
-
-Look up the root OU ID automatically:
-```bash
-ROOT_OU=$(aws organizations list-roots --profile <mgmt-profile> --region <region> \
-  --query "Roots[0].Id" --output text)
-```
-
-Deploy the StackSet:
-```bash
-wget https://raw.githubusercontent.com/awslabs/aws-security-assessment-solution/main/1-sat2-member-roles.yaml
-
-aws cloudformation create-stack-set \
-  --template-body file://1-sat2-member-roles.yaml \
-  --stack-set-name sat2-member-roles \
-  --permission-model SERVICE_MANAGED \
-  --auto-deployment Enabled=true,RetainStacksOnAccountRemoval=false \
-  --capabilities CAPABILITY_NAMED_IAM \
-  --parameters ParameterKey=ProwlerAccountID,ParameterValue=<audit-account-id> \
-  --region <region> --profile <mgmt-profile>
-
-aws cloudformation create-stack-instances \
-  --stack-set-name sat2-member-roles \
-  --deployment-targets OrganizationalUnitIds='["'$ROOT_OU'"]' \
-  --regions '["<region>"]' \
-  --operation-preferences FailureTolerancePercentage=100,MaxConcurrentPercentage=100 \
-  --region <region> --profile <mgmt-profile>
-```
-
-Note: StackSets don't apply to the management account. Deploy `1-sat2-member-roles.yaml` as a regular Stack in the management account if it also needs scanning.
-
-**Wait for completion** — poll until `SUCCEEDED`:
-```bash
-OP_ID=$(aws cloudformation list-stack-set-operations --stack-set-name sat2-member-roles \
-  --query "Summaries[0].OperationId" --output text --profile <mgmt-profile> --region <region>)
-
-aws cloudformation describe-stack-set-operation --stack-set-name sat2-member-roles \
-  --operation-id $OP_ID --query "StackSetOperation.Status" --output text \
-  --profile <mgmt-profile> --region <region>
-```
-
-If `FAILED`/`STOPPED`, check failures:
-```bash
-aws cloudformation list-stack-set-operation-results --stack-set-name sat2-member-roles \
-  --operation-id $OP_ID --query "Summaries[?Status!='SUCCEEDED']" \
-  --profile <mgmt-profile> --region <region>
-```
-
-Do NOT proceed until Step A completes.
-
-### Step B — Verify Organizations Access (management account)
-
-Check automatically — do NOT ask the user:
-```bash
-aws organizations list-delegated-administrators --profile <mgmt-profile> --region <region>
-aws organizations describe-resource-policy --profile <mgmt-profile> --region <region>
-```
-
-- Audit account in delegated admins list → proceed.
-- Resource policy grants audit account `organizations:ListAccounts` → proceed.
-- Neither exists → create a resource policy (preferred):
-  ```bash
-  aws organizations put-resource-policy --content \
-  '{
-      "Version": "2012-10-17",
-      "Statement": [{
-          "Sid": "ProwlerListAccounts",
-          "Effect": "Allow",
-          "Principal": {"AWS": "arn:aws:iam::<audit-account-id>:root"},
-          "Action": ["organizations:ListAccounts","organizations:DescribeAccount","organizations:ListTagsForResource"],
-          "Resource": "*"
-      }]
-  }' --profile <mgmt-profile> --region <region>
-  ```
-  For GovCloud, use delegated admin: `aws organizations register-delegated-administrator --account-id <audit-account-id>`
-
-### Step C — Deploy SATv2 (audit account)
-
-```bash
-aws cloudformation deploy \
-  --template-file 2-sat2-codebuild-prowler.yaml \
-  --stack-name sat2-prowler \
-  --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides MultiAccountScan=true Reporting=true ProwlerScanType=<type> EmailAddress=<email> \
-  --profile <audit-profile> --region <region>
-```
-
-After deployment:
-> **The multi-account scan is running. You'll get an email at `<email>` when it completes (and a second email when the consolidated report is ready). Come back to me then and we'll review together.**
+See `references/multi-account.md` for Steps A (member roles via
+StackSet), B (Organizations access), and C (SATv2 stack in the audit
+account).
 
 ## Review the Results
 
@@ -316,21 +235,8 @@ If yes (or user confirms), proceed:
 aws cloudformation delete-stack --stack-name <stack-name> --profile <profile> --region <region>
 ```
 
-**Multi-account:**
-```bash
-# Delete StackSet instances first
-aws cloudformation delete-stack-instances --stack-set-name sat2-member-roles \
-  --deployment-targets OrganizationalUnitIds='["'$ROOT_OU'"]' \
-  --regions '["<region>"]' --no-retain-stacks \
-  --profile <mgmt-profile> --region <region>
-
-# Wait for completion, then delete StackSet
-aws cloudformation delete-stack-set --stack-set-name sat2-member-roles \
-  --profile <mgmt-profile> --region <region>
-
-# Delete the main stack
-aws cloudformation delete-stack --stack-name <stack-name> --profile <audit-profile> --region <region>
-```
+**Multi-account:** see `references/multi-account.md` for the StackSet
+teardown sequence.
 
 Tell the user: **Cleaned up. Your scan results are still in the S3 bucket (`<bucket-name>`) and downloaded locally in `sat2-results/`.**
 

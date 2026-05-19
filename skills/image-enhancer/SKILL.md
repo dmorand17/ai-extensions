@@ -1,11 +1,16 @@
 ---
 name: image-enhancer
-description: Improves the quality of images, especially screenshots, by enhancing resolution, sharpness, and clarity. Perfect for preparing images for presentations, documentation, or social media posts.
+description: >
+  Upscale and sharpen images and screenshots using Pillow (LANCZOS resample,
+  UnsharpMask, median denoise). Use when user mentions enhancing, upscaling,
+  or sharpening an image, improving screenshot quality, reducing compression
+  artifacts, or preparing images for blog posts, documentation,
+  presentations, or social media.
 ---
 
 # Image Enhancer
 
-This skill takes your images and screenshots and makes them look better — sharper, clearer, and more professional.
+Upscale, sharpen, and denoise images using Pillow.
 
 ## When to Use This Skill
 
@@ -112,8 +117,6 @@ Enhancements applied:
 Saved as: screenshot-2024-enhanced.png
 Original preserved as: screenshot-2024-original.png
 ```
-
-**Inspired by:** Lenny Rachitsky's workflow from his newsletter — used for screenshots in his articles
 
 ## Tips
 
