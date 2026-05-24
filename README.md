@@ -6,7 +6,7 @@ Personal collection of [Claude Code](https://docs.claude.com/en/docs/claude-code
 
 | Skill | Description |
 |-------|-------------|
-| [git-commit](./skills/git-commit/) | Stage and commit using Conventional Commits (or just draft/review a message) |
+| [git-ship](./skills/git-ship/) | Conventional Commits + full ship flow on request (branch, commit, push, open PR) |
 | [changelog-generator](./skills/changelog-generator/) | Generate user-facing changelogs and release notes from git commit history |
 | [excalidraw-diagram](./skills/excalidraw-diagram/) | Create and edit Excalidraw diagrams via MCP |
 | [markdown-convert](./skills/markdown-convert/) | Convert markdown files to other formats using pandoc |
@@ -88,7 +88,7 @@ cd ai-extensions
 Symlink an individual skill into your global skills dir:
 
 ```bash
-ln -s $(pwd)/skills/git-commit ~/.claude/skills/git-commit   # or ~/.kiro/skills/...
+ln -s $(pwd)/skills/git-ship ~/.claude/skills/git-ship   # or ~/.kiro/skills/...
 ```
 
 Symlink everything:
