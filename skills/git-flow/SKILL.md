@@ -1,16 +1,19 @@
 ---
-name: git-ship
+name: git-flow
 description: >
   Git workflow skill — drafts and executes Conventional Commits, and on
   request runs the full ship flow (create branch, commit, push, open PR).
   Use when the user asks to write, generate, format, or review a commit
-  message, "commit" / "stage and commit", or to "ship", "push and open a
+  message, "commit" / "stage and commit", or to "ship", "ship em", "push and open a
   PR", "create a branch and PR", or any combination of branch + commit +
   push + PR. Do NOT use for merges, rebases, reverts, or other history
   rewrites.
+user-invocable: true
+disable-model-invocation: true
+argument-hint: "[ship]"
 ---
 
-# git-ship
+# git-flow
 
 This skill has three modes. **Default to commit-only.** Only enter ship
 mode when the user explicitly asks for branching, pushing, or PR creation.
@@ -20,6 +23,12 @@ mode when the user explicitly asks for branching, pushing, or PR creation.
 | "write a commit message", "review my msg", "format"  | Draft only  |
 | "commit this", "stage and commit", "commit my work"  | Commit      |
 | "ship", "push and open a PR", "branch + commit + PR" | Ship        |
+
+### User argument
+
+When invoked as `/git-flow ship` (or with `ship` as the first argument),
+skip mode detection and go straight to the **Ship mode workflow** below.
+With no argument, follow the table above.
 
 If the request is ambiguous, draft the message and ask before staging,
 pushing, or opening a PR.
