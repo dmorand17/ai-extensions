@@ -9,7 +9,11 @@ description: >
 argument-hint: "What will the next session be used for?"
 ---
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it to a path produced by `mktemp -t handoff-XXXXXX.md` (read the file before you write to it).
+Write a handoff document summarising the current conversation so a fresh agent can continue the work.
+
+**Before writing, ask the user where to save it.** Propose 2–3 sensible locations based on the current context (e.g. project root, alongside a referenced plan/PRD, a dedicated `~/.claude/handoffs/` directory) and recommend one with a brief reason. Do not default to `mktemp` — temp files get cleaned up and are hard to find later. Only fall back to `mktemp -t handoff-XXXXXX.md` if the user explicitly declines to pick a location.
+
+Once the user confirms a path, write the doc there. Use a descriptive filename (e.g. `HANDOFF-<topic>.md`) rather than a generic one.
 
 Suggest the skills to be used, if any, by the next session.
 
