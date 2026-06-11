@@ -94,6 +94,8 @@ ln -s $(pwd)/skills/git-flow ~/.claude/skills/git-flow   # or ~/.kiro/skills/...
 Symlink everything:
 
 ```bash
+mkdir ~/.claude/{agents,skills,hooks}
+
 for skill in skills/*/; do
   ln -sf "$(pwd)/$skill" ~/.claude/skills/$(basename "$skill")
 done
