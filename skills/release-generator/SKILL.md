@@ -102,20 +102,33 @@ git describe --tags --abbrev=0   # last release tag
 - If the working tree is dirty, surface it and confirm before continuing.
 - If the repo isn't on GitHub, stop — don't fall back to other tooling.
 
-### 2. Suggest the next version
+### 2. Ask the release type, then compute the version
 
-If the user gave a version, use it. Otherwise inspect commits since the
-last tag and recommend a semver bump:
+If the user gave an explicit version, use it. Otherwise **ask the user
+what type of release this is** so the version bump is intentional:
 
-| Highest-impact change since last tag | Bump  |
-|--------------------------------------|-------|
-| Breaking change (`!` / BREAKING)     | major |
-| New feature (`feat`)                 | minor |
-| Only fixes / patches                 | patch |
+| Release type | Bump  | Use when                                    |
+|--------------|-------|---------------------------------------------|
+| Major        | major | Breaking changes / incompatible API changes |
+| Minor        | minor | New backward-compatible features            |
+| Patch        | patch | Backward-compatible bug fixes only          |
 
-Show the reasoning ("3 feats, 0 breaking → minor: v2.4.0 → v2.5.0") and
-**confirm the version with the user** before tagging. Match the repo's
-existing tag style (`v`-prefixed vs bare; check the last tag).
+Inspect commits since the last tag and **recommend** the type, but let
+the user choose. Suggest based on the highest-impact change:
+
+- Breaking change (`!` / `BREAKING CHANGE`) present → suggest **major**
+- New feature (`feat`) present → suggest **minor**
+- Only fixes / patches → suggest **patch**
+
+Present it like a question, e.g.:
+
+> I see 3 feats and 0 breaking changes since `v2.4.0`, so I'd suggest a
+> **minor** release → `v2.5.0`. What type of release do you want?
+> (major / minor / patch)
+
+Once the user picks, apply the bump to the last tag to get the new
+version. Match the repo's existing tag style (`v`-prefixed vs bare;
+check the last tag). **Confirm the resulting version** before tagging.
 
 ### 3. Generate the notes
 
