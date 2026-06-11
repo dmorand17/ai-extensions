@@ -7,7 +7,7 @@ Personal collection of [Claude Code](https://docs.claude.com/en/docs/claude-code
 | Skill | Description |
 |-------|-------------|
 | [git-flow](./skills/git-flow/) | Conventional Commits + full ship flow on request (branch, commit, push, open PR) |
-| [changelog-generator](./skills/changelog-generator/) | Generate user-facing changelogs and release notes from git commit history |
+| [release-generator](./skills/release-generator/) | Cut a GitHub release — suggest the next semver tag, generate categorized release notes, and publish via `gh release create` (or just generate changelogs/notes) |
 | [excalidraw-diagram](./skills/excalidraw-diagram/) | Create and edit Excalidraw diagrams via MCP |
 | [markdown-convert](./skills/markdown-convert/) | Convert markdown files to other formats using pandoc |
 | [skill-creator](./skills/skill-creator/) | Create, improve, and evaluate new skills |
