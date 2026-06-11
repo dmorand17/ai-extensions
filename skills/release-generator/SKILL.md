@@ -142,13 +142,17 @@ prerelease, and the notes. Wait for explicit approval.
 
 Create an **annotated** tag (the convention for published releases — it
 records the tagger, date, and message, and can be signed), push it, then
-publish the release against it:
+publish the release against it. Pass `--generate-notes` so GitHub appends
+its auto-generated commit list, contributors, and **Full Changelog**
+compare link (`<prevtag>...<tag>`) *below* the curated summary — you get
+the readable human summary on top and the raw diff/compare link beneath:
 
 ```bash
 git tag -a <tag> -m "Release <tag>"
 git-c push origin <tag>
 gh release create <tag> \
   --title "<title>" \
+  --generate-notes \
   --notes "$(cat <<'EOF'
 <generated notes>
 EOF
@@ -161,6 +165,13 @@ push, per the project's git practices; if `git-c` fails with a
 `failed to connect to the docker API` error, ask the user whether to
 start colima via `colima start`.
 
+**First release (no prior tag):** `--generate-notes` has no tag-to-tag
+range, so GitHub generates from the *entire* history — which dumps every
+commit (including noise like routine docs/content commits) below your
+summary. For a first release, omit `--generate-notes` and ship the
+curated notes alone; it becomes valuable from the second release on, when
+the compare range is a tight `<prevtag>...<tag>`.
+
 To sign the tag, use `git tag -s <tag> -m "..."` instead.
 
 To tag a commit other than HEAD, point the `git tag -a` step at that
@@ -172,7 +183,9 @@ Useful `gh release create` flags:
 - `--prerelease` — mark as a pre-release (alpha/beta/rc)
 - `--draft` — create as a draft for manual review before going public
 - `--latest` / `--latest=false` — control the "Latest" badge
-- `--generate-notes` — append GitHub's auto notes below yours (optional)
+- `--generate-notes` — append GitHub's auto notes (commit list +
+  contributors + Full Changelog compare link) below yours. Default on,
+  except for a first release with no prior tag (see above)
 
 After creation, return the release URL.
 
