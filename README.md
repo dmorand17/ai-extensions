@@ -1,8 +1,26 @@
-# ai-extensions
+<p align="center">
+  <img src="docs/img/ai-extensions.png" alt="ai-extensions logo">
+</p>
 
-Personal collection of [Claude Code](https://docs.claude.com/en/docs/claude-code) skills, agents, and hooks.
+<h1 align="center">ai-extensions</h1>
 
-## Skills
+<p align="center">
+  <em>Personal collection of Claude Code skills, agents, and hooks</em>
+</p>
+
+<hr/>
+
+A curated set of [Claude Code](https://docs.claude.com/en/docs/claude-code) extensions — self-contained skills, subagent definitions, and hook scripts — that you can symlink into your global or project-scoped Claude config.
+
+## 🚀 Quick start
+
+```bash
+git clone git@github.com:dmorand17/ai-extensions.git
+cd ai-extensions
+ln -s $(pwd)/skills/git-flow ~/.claude/skills/git-flow   # symlink one skill
+```
+
+## 🧩 Skills
 
 | Skill | Description |
 |-------|-------------|
@@ -19,7 +37,7 @@ Personal collection of [Claude Code](https://docs.claude.com/en/docs/claude-code
 | [satv2-assessment](./skills/satv2-assessment/) | Deploy and run AWS SATv2 security assessments using Prowler-based scanning |
 | [image-enhancer](./skills/image-enhancer/) | Enhance image quality — sharpen, upscale, denoise, and clean up compression artifacts |
 
-## Agents
+## 🤖 Agents
 
 | Agent | Description |
 |-------|-------------|
@@ -28,7 +46,7 @@ Personal collection of [Claude Code](https://docs.claude.com/en/docs/claude-code
 | [docs-explorer](./agents/docs-explorer.md) | Explores and explains documentation |
 | [security-auditor](./agents/security-auditor.md) | Audits code and infrastructure for security issues |
 
-## Hooks
+## 🪝 Hooks
 
 | Hook | Description |
 |------|-------------|
@@ -78,7 +96,9 @@ Requires `jq` for pretty-printed output (falls back to raw JSON if missing).
 
 </details>
 
-## Installation
+## 📦 Installation
+
+Clone the repo (if you haven't already):
 
 ```bash
 git clone git@github.com:dmorand17/ai-extensions.git
@@ -119,7 +139,7 @@ cd ai-extensions && git pull
 
 Symlinks pick up updates automatically.
 
-## Structure
+## 🗂️ Structure
 
 ```
 skills/        # Self-contained skill packages, each with a SKILL.md
@@ -129,7 +149,7 @@ hooks/         # Hook scripts
 
 Each skill directory contains `SKILL.md` plus any templates, examples, or references it needs.
 
-## Useful external skills
+## 🔗 Useful external skills
 
 Skills from other authors that pair well with this repo:
 
@@ -137,7 +157,7 @@ Skills from other authors that pair well with this repo:
 |------|--------|-------------|
 | [caveman](https://github.com/JuliusBrussee/caveman) | JuliusBrussee | Ultra-compressed communication mode plus a `caveman-compress` skill that compresses memory files (CLAUDE.md, todos) to save input tokens |
 
-## Inspiration
+## 💡 Inspiration
 
 Projects and writing that shaped how skills here are designed:
 
@@ -145,6 +165,6 @@ Projects and writing that shaped how skills here are designed:
 |--------|-----|
 | [mattpocock/skills](https://github.com/mattpocock/skills) | Productivity and engineering skills — caveman, grill-me, handoff, grill-with-docs |
 
-## Credits
+## 🙏 Credits
 
 - **satv2-assessment** — based on [Running AWS SATv2 Security Assessments with Kiro Skills](https://builder.aws.com/content/3BmTHb9hXqSwqjfG34yEbgURhZY/running-aws-satv2-security-assessments-with-kiro-skills)
