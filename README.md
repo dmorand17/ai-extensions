@@ -25,6 +25,7 @@ ln -s $(pwd)/skills/git-flow ~/.claude/skills/git-flow   # symlink one skill
 | Skill | Description |
 |-------|-------------|
 | [git-flow](./skills/git-flow/) | Conventional Commits + full ship flow on request (branch, commit, push, open PR) |
+| [cc-search](./skills/cc-search/) | Full-text search across past Claude Code sessions and plan files — find, resume, or recall a conversation by its content, not just its title |
 | [release-generator](./skills/release-generator/) | Cut a GitHub release — suggest the next semver tag, generate categorized release notes, and publish via `gh release create` (or just generate changelogs/notes) |
 | [excalidraw-diagram](./skills/excalidraw-diagram/) | Create and edit Excalidraw diagrams via MCP |
 | [markdown-convert](./skills/markdown-convert/) | Convert markdown files to other formats using pandoc |
@@ -170,3 +171,4 @@ Projects and writing that shaped how skills here are designed:
 ## 🙏 Credits
 
 - **satv2-assessment** — based on [Running AWS SATv2 Security Assessments with Kiro Skills](https://builder.aws.com/content/3BmTHb9hXqSwqjfG34yEbgURhZY/running-aws-satv2-security-assessments-with-kiro-skills)
+- **cc-search** — inspired by [Building a Claude Code search skill](https://www.definite.app/blog/claude-code-search-skill)
