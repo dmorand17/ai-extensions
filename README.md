@@ -158,7 +158,11 @@ Skills from other authors that pair well with this repo:
 
 | Name | Author | Description |
 |------|--------|-------------|
+| [superpowers](https://github.com/obra/superpowers) | obra | A collection of workflow skills (brainstorming, TDD, systematic debugging, writing plans, code review) that establish disciplined engineering processes |
+| [frontend-design](https://github.com/anthropics/skills) | Anthropic | Create distinctive, production-grade frontend interfaces with high design quality — avoids generic AI aesthetics when building components, pages, or apps |
+| [automated-security-helper](https://github.com/awslabs/automated-security-helper#option-1-install-the-skill) | awslabs | Run multiple open-source security scanners (SAST, secrets, IaC, dependencies) through a single unified tool |
 | [caveman](https://github.com/JuliusBrussee/caveman) | JuliusBrussee | Ultra-compressed communication mode plus a `caveman-compress` skill that compresses memory files (CLAUDE.md, todos) to save input tokens |
+| [frontend-slides](https://github.com/zarazhangrui/frontend-slides) | zarazhangrui | Build polished zero-dependency HTML presentations from scratch or by converting PowerPoint files — 34 design templates with visual style previews |
 
 ## 💡 Inspiration
 
