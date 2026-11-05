@@ -109,24 +109,26 @@ cd ai-extensions
 Symlink an individual skill into your global skills dir:
 
 ```bash
-ln -s $(pwd)/skills/git-flow ~/.claude/skills/git-flow   # or ~/.kiro/skills/...
+ln -sfn $(pwd)/skills/git-flow ~/.claude/skills/git-flow   # or ~/.kiro/skills/...
 ```
 
-Symlink everything:
+Symlink everything (safe to re-run; existing directories and links are reused):
 
 ```bash
-mkdir ~/.claude/{agents,skills,hooks}
+mkdir -p ~/.claude/{agents,skills,hooks}
 
 for skill in skills/*/; do
-  ln -sf "$(pwd)/$skill" ~/.claude/skills/$(basename "$skill")
+  ln -sfn "$(pwd)/${skill%/}" ~/.claude/skills/$(basename "$skill")
 done
 for agent in agents/*.md; do
-  ln -sf "$(pwd)/$agent" ~/.claude/agents/$(basename "$agent")
+  ln -sfn "$(pwd)/$agent" ~/.claude/agents/$(basename "$agent")
 done
-for hook in hooks/*/; do
-  ln -sf "$(pwd)/$hook" ~/.claude/hooks/$(basename "$hook")
+for hook in hooks/*; do
+  ln -sfn "$(pwd)/$hook" ~/.claude/hooks/$(basename "$hook")
 done
 ```
+
+> `-n` matters: without it, re-running `ln -sf` on an already-linked skill directory creates a nested link *inside* the repo (e.g. `skills/git-flow/git-flow`).
 
 Project-scoped install:
 
